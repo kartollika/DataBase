@@ -3,22 +3,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
+#include "baseFunc.h"
 #define N 256
-
-typedef struct {
-    char *name,
-         *surname;
-    int place;
-    double average;
-} participant;
 
 FILE *initFILE(void);
 
-int scanFILE(FILE *file, int record, participant *particip);
+int recordsCount(FILE *file);
 
-void printFILE(FILE *file, participant** particip);
+void scanFILE(FILE *file, int record, participant *particip);
 
-void printUser(participant user);
+void printFILE(FILE *file, int record, participant* particip);
+
+void printUser(participant *user);
 
 void closeFILE(FILE *file);
 

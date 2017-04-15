@@ -17,41 +17,47 @@ int recordsCount(FILE *file)
     return record;
 }
 
-int scanFILE(FILE *file, int record, participant *particip)
+void scanFILE(FILE *file, int record, participant *part)
 {
     int i;
+    int place;
+    double aver;
 
     char *s = calloc(N, sizeof(char));
     fseek(file, 0, SEEK_SET);
 
-
     for (i=0; i<record; ++i)
     {
         fscanf(file, "%s", s);
-        particip[i].name =  malloc(strlen(s) + 1);
-        strcpy(particip[i].name, s);
+        part[i].name =  malloc(strlen(s) + 1);
+        strcpy(part[i].name, s);
 
-        fscanf(file, " %s", s);
-        particip[i].surname =  malloc(strlen(s) + 1);
-        strcpy(particip[i].surname, s);
+        fscanf(file, "%s", s);
+        part[i].surname =  malloc(strlen(s) + 1);
+        strcpy(part[i].surname, s);
+
+        fscanf(file, "%i", &place);
+        part[i].place = place;
+
+        fscanf(file, "%lf", &aver);
+        part[i].average = aver;
     }
-
     free(s);
 }
 
-void printFILE(FILE *file, participant** part)
+void printFILE(FILE *file, int record, participant *part)
 {
     int i;
-    for (i=0; i<4; ++i)
-    {
+    freopen("base.in", "w", stdout);
+    for (i=0; i<record; ++i)
+        printf("%s %s %i %.3lf\n", part[i].name, part[i].surname, part[i].place, part[i].average);
 
-    }
-
+    fclose(stdout);
 }
 
-void printUser(participant user)
+void printUser(participant *user)
 {
-    printf("%s", user.name);
+    printf("%s", user->name);
 }
 
 void closeFILE(FILE *file)
