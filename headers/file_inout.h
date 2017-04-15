@@ -1,6 +1,9 @@
 #ifndef INOUT_H_INCLUDED
 #define INOUT_H_INCLUDED
 #include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+#define N 256
 
 typedef struct {
     char *name,
@@ -9,11 +12,13 @@ typedef struct {
     double average;
 } participant;
 
-FILE* initFILE(FILE *file);
+FILE *initFILE(void);
 
-void scanFILE(FILE *file, participant** part);
+int scanFILE(FILE *file, int record, participant *particip);
 
-void printFILE(FILE *file, participant** part);
+void printFILE(FILE *file, participant** particip);
+
+void printUser(participant user);
 
 void closeFILE(FILE *file);
 
