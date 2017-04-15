@@ -19,8 +19,6 @@ int main()
     scanFILE(f, record, participants);
 
 
-
-
     printFILE(f, record, participants);
     closeFILE(f);
 
