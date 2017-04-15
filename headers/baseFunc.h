@@ -10,7 +10,35 @@ typedef struct {
     double average;
 } participant;
 
+/** \brief
+ *
+ * \param
+ * \param
+ * \return
+ *
+ */
 
+int addRecord(participant *part, int n);
+
+/** \brief
+ *
+ * \param
+ * \param
+ * \return
+ *
+ */
+
+int delRecord(participant *part, int pos, int n);
+
+/** \brief
+ *
+ * \param
+ * \param
+ * \return
+ *
+ */
+
+int sortBase(participant *part, int column, int direction);
 
 
 #endif // BASEFUNC_H_INCLUDED
