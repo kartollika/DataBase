@@ -1,17 +1,17 @@
 # DataBase
 
-Program to work with databases of any sizes in count of records
+<i>Program to work with databases of any sizes in count of records</i>
 
 # Supports:
-  • Creating databases in program
-  • Reading from files
-  • Printing database on console and saving in file
-  • Add 1 and more records to database to the end
-  • Delete records from database from the end
+  • Creating databases in program <br>
+  • Reading from files <br>
+  • Printing database on console and saving in file <br>
+  • Add 1 and more records to database to the end <br>
+  • Delete records from database from the end <br>
 
 # Soon (in progress):
-  • Printing record on console by unique identifier
-  • Sorting database by any of field
-  • Using only pointer arifmetic 
-  • Draw circular and column diagrams by any of field
+  • Printing record on console by unique identifier <br>
+  • Sorting database by any of field <br>
+  • Using only pointer arifmetic <br>
+  • Draw circular and column diagrams by any of field <br>
 
