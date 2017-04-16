@@ -18,7 +18,7 @@ typedef struct {
  *
  */
 
-int addRecord(participant *part, int n);
+participant *addRecord(participant *part, int *record, int n);
 
 /** \brief
  *
