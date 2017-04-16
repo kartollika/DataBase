@@ -3,7 +3,7 @@
 <i>Program to work with databases of any sizes in count of records</i>
 
 # Supports:
-  • Creating databases in program <br>
+  • Creating database in program <br>
   • Reading from files <br>
   • Printing database on console and saving in file <br>
   • Add 1 and more records to database to the end <br>
