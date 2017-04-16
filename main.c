@@ -6,67 +6,89 @@
 int main()
 {
     int record, task = 1;
-    int i;
     participant *participants = NULL;
     FILE *f = NULL;
 
     {
         TEST_count_Record();
-        printf("ALL TEST SUCCESSFUL\n"
-               "READY TO WORK\n\n");
+        printf("ALL TESTS SUCCESSFUL\n"
+               "READY TO WORK\n");
     }
-    while ((task > 0) && (task <6))
+
+    while ( 1 )
     {
-        printf("Choose your operation with database\n"
+        printf("\nChoose your operation with database\n"
                "    1) Create new database\n"
                "    2) Load database from file\n"
                "    3) Save database in same file\n"
                "    4) Print database on console\n"
-               "    5) Add new records to database\n"
-               "    6) Delete records from database\n"
-               "    7) Sort database by specific field\n"
+               "    5) Print specific record by identifier\n"
+               "    6) Add new records to database\n"
+               "    7) Delete records from database\n"
+               "    8) Sort database by specific field\n"
                "Other) Exit\n");
+
         scanf("%i", &task);
         switch(task)
         {
         case 1:
             {
-                f = initFILE();
-                record = recordsCount(f);
-                participants = (participant*) malloc(record * sizeof(participant));
-
+                if (!f)
+                {
+                    f = initFILE(0);
+                    if (!f) continue;
+                    record = recordsCount(f);
+                    participants = (participant*) malloc(record * sizeof(participant));
+                }
                 continue;
             }
         case 2:
             {
-                f = initFILE();
-                record = recordsCount(f);
-                participants = (participant*) malloc(record * sizeof(participant));
-                scanFILE(f, record, participants);
+                if (!f)
+                {
+                    f = initFILE(1);
+                    record = recordsCount(f);
+                    participants = (participant*) malloc(record * sizeof(participant));
+                    scanFILE(f, record, participants);
+                }
 
                 continue;
             }
         case 3:
             {
-                printFILE(f, record, participants);
+                if (f)
+                    printFILE(f, record, participants);
+                else
+                    printf("DATABASE HASN'T FOUND\n");
+
                 continue;
             }
         case 4:
             {
-
-
+                if (f)
+                    printConsole(record, participants);
+                else
+                    printf("DATABASE HASN'T FOUND\n");
                 continue;
             }
         case 5:
             {
-
-                participants = addRecord(participants, &record, 0);
-
+                int ident;
+                scanf("%i", &ident);
+                printUser(participants, ident);
                 continue;
             }
         case 6:
             {
-
+                if (f)
+                {
+                    int count;
+                    printf("Enter count of new records\nCount = ");
+                    scanf("%i", &count);
+                    participants = addRecord(participants, &record, count);
+                }
+                else
+                    printf("DATABASE HASN'T FOUND\n");
 
                 continue;
             }
@@ -77,6 +99,12 @@ int main()
                 continue;
             }
         case 8:
+            {
+
+
+                continue;
+            }
+        default:
             {
                 closeFILE(f);
                 return 0;

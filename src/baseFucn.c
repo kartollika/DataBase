@@ -10,26 +10,24 @@ participant *addRecord(participant *part, int *record, int n)
     int k = *record;
     while (k < *record + n)
     {
-        printf("\nUser #%i\n", k);
+        printf("User #%i", k);
         printf("Name ");
         scanf("%s", s);
-        part[k].name = malloc(strlen(s)+1);
-        strcpy(part[k].name, s);
+        part[*record].name = malloc(strlen(s)+1);
+        strcpy(part[*record].name, s);
 
         printf("Surname ");
         scanf("%s", s);
-        part[k].surname = malloc(strlen(s)+1);
-        strcpy(part[k].surname, s);
+        part[*record].surname = malloc(strlen(s)+1);
+        strcpy(part[*record].surname, s);
 
         printf("Place ");
-        scanf("%i", &part[k].place);
+        scanf("%i", &part[*record].place);
         printf("Average point ");
-        scanf("%lf", &part[k].average);
+        scanf("%lf", &part[(*record)++].average);
 
         k++;
-        printf("=============================\n");
     }
-    *record += n;
 
     return part;
 }

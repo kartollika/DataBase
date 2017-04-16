@@ -15,7 +15,7 @@
  *
  */
 
-FILE *initFILE(void);
+FILE *initFILE(int mode);
 
 /** \brief
  *
@@ -55,7 +55,7 @@ void printFILE(FILE *file, int record, participant* particip);
  *
  */
 
-void printUser(participant *user);
+void printUser(participant *user, int ident);
 
 /** \brief
  *
