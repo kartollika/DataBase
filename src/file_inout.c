@@ -2,8 +2,40 @@
 
 FILE *initFILE(void)
 {
+    char *s = calloc(N, sizeof(char));
     FILE *file;
-    file = fopen("base.in", "r");
+    scanf("%s", s);
+    if (fopen(s, "r") == NULL)
+    {
+        file = fopen(s, "w+");
+        return file;
+    }
+    else
+    {
+        int task = 1;
+        printf("File in this directory exist. Orders?\n"
+               "1) Rewrite this file\n"
+               "2) Open this file\n"
+               "3) Rename your database");
+        scanf("%i", &task);
+        switch(task)
+        {
+        case 1:
+            {
+                fclose(file);
+                file = fopen(s, "w+");
+                return file;
+            }
+        case 2:
+            {
+                return file;
+            }
+        case 3:
+            {
+
+            }
+        }
+    }
     return file;
 }
 
@@ -20,12 +52,9 @@ int recordsCount(FILE *file)
 void scanFILE(FILE *file, int record, participant *part)
 {
     int i;
-    int place;
-    double aver;
-
     char *s = calloc(N, sizeof(char));
-    fseek(file, 0, SEEK_SET);
 
+    fseek(file, 0, SEEK_SET);
     for (i=0; i<record; ++i)
     {
         fscanf(file, "%s", s);
@@ -36,11 +65,9 @@ void scanFILE(FILE *file, int record, participant *part)
         part[i].surname =  malloc(strlen(s) + 1);
         strcpy(part[i].surname, s);
 
-        fscanf(file, "%i", &place);
-        part[i].place = place;
+        fscanf(file, "%i", &part[i].place);
 
-        fscanf(file, "%lf", &aver);
-        part[i].average = aver;
+        fscanf(file, "%lf", &part[i].average);
     }
     free(s);
 }

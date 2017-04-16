@@ -7,15 +7,63 @@
 #include "baseFunc.h"
 #define N 256
 
+/** \brief
+ *
+ * \param
+ * \param
+ * \return
+ *
+ */
+
 FILE *initFILE(void);
+
+/** \brief
+ *
+ * \param
+ * \param
+ * \return
+ *
+ */
 
 int recordsCount(FILE *file);
 
+/** \brief
+ *
+ * \param
+ * \param
+ * \return
+ *
+ */
+
 void scanFILE(FILE *file, int record, participant *particip);
+
+/** \brief
+ *
+ * \param
+ * \param
+ * \return
+ *
+ */
 
 void printFILE(FILE *file, int record, participant* particip);
 
+/** \brief
+ *
+ * \param
+ * \param
+ * \return
+ *
+ */
+
 void printUser(participant *user);
+
+/** \brief
+ *
+ * \param
+ * \param
+ * \return
+ *
+ */
 
 void closeFILE(FILE *file);
 
