@@ -10,6 +10,7 @@
   • Deleting records from database from the end <br>
 
 # Soon (in progress):
+  • Editing record by unique identifier <br>
   • Printing record on console by unique identifier <br>
   • Sorting database by any of field <br>
   • Using only pointer arifmetic <br>
