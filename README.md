@@ -6,9 +6,9 @@
   • Creating database in program <br>
   • Reading from files <br>
   • Printing database on console and saving in file <br>
+  • Printing record on console by unique identifier <br>
   • Adding 1 and more records to database to the end <br>
-  • Deleting records from database from any position <br>
-  • Printing record on console by unique identifier
+  • Deleting 1 and more records from database from any position <br>
 
 # Soon (in progress):
   • Editing record by unique identifier <br>
