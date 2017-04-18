@@ -31,8 +31,15 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="TESTUNIT/test.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="headers/baseFunc.h" />
 		<Unit filename="headers/file_inout.h" />
 		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/baseFucn.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/file_inout.c">
