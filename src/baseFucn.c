@@ -1,14 +1,14 @@
 #include "../headers/baseFunc.h"
 #include "../headers/file_inout.h"
 
-participant *addRecord(participant *part, int *record, int n)
+participant *addRecord(participant *part, int *record, int *n)
 {
     char *s = calloc(N, sizeof(char));
 
-    part = (participant*) realloc(part, (*record+n) * sizeof(participant));
+    part = (participant*) realloc(part, (*record+*n) * sizeof(participant));
 
     int k = *record;
-    while (k < *record + n)
+    while (k < *record + *n)
     {
         printf("User #%i\n", k);
         printf("Name ");
@@ -29,15 +29,23 @@ participant *addRecord(participant *part, int *record, int n)
         printf("===================================\n");
         k++;
     }
-    *record += n;
+    *record += *n;
     return part;
 }
 
-int delRecord(participant *part, int pos, int n)
+participant *delRecord(participant *part, int *pos, int *n, int *record)
 {
+  //  participant *beg =
+   //             *end = ;
+    int i = *pos - 1,
+        e = i + *n;
 
+    for (; e<*record; ++i, ++e)
+        part[i] = part[e];
 
-    return 0;
+    *record -= *n;
+        part = realloc(part, (*record) * sizeof(participant));
+    return part;
 }
 
 int sortBase(participant *part, int column, int direction)

@@ -29,6 +29,7 @@ int main()
                "Other) Exit\n");
 
         scanf("%i", &task);
+        printf("\n");
         switch(task)
         {
         case 1:
@@ -49,7 +50,7 @@ int main()
                     f = initFILE(1);
                     record = recordsCount(f);
                     participants = (participant*) malloc(record * sizeof(participant));
-                    scanFILE(f, record, participants);
+                    scanFILE(f, participants, &record);
                 }
 
                 continue;
@@ -57,7 +58,7 @@ int main()
         case 3:
             {
                 if (f)
-                    printFILE(f, record, participants);
+                    printFILE(f, participants, &record);
                 else
                     printf("DATABASE HASN'T FOUND\n");
 
@@ -66,7 +67,7 @@ int main()
         case 4:
             {
                 if (f)
-                    printConsole(record, participants);
+                    printConsole(participants, &record);
                 else
                     printf("DATABASE HASN'T FOUND\n");
                 continue;
@@ -75,7 +76,7 @@ int main()
             {
                 int ident;
                 scanf("%i", &ident);
-                printUser(participants, ident);
+                printUser(&participants[ident-1]);
                 continue;
             }
         case 6:
@@ -85,7 +86,7 @@ int main()
                     int count;
                     printf("Enter count of new records\nCount = ");
                     scanf("%i", &count);
-                    participants = addRecord(participants, &record, count);
+                    participants = addRecord(participants, &record, &count);
                 }
                 else
                     printf("DATABASE HASN'T FOUND\n");
@@ -94,7 +95,16 @@ int main()
             }
         case 7:
             {
-
+                if (f)
+                {
+                    int pos, count;
+                    printf("From what position do you want to delete record?\n"
+                           "And how many do you want to delete? (F.E 3 2 (from 3 position delete 2 records\n");
+                    scanf("%i %i", &pos, &count);
+                    participants = delRecord(participants, &pos, &count, &record);
+                }
+                else
+                    printf("DATABASE HAS'T FOUND\n");
 
                 continue;
             }
@@ -106,7 +116,14 @@ int main()
             }
         default:
             {
-                closeFILE(f);
+                int THELASTCHANCETOSAVEDATABASE;
+                printf("DO YOU WANT TO SAVE YOUR DATABASE?\n"
+                       "1 - YES, 0 - NO\n");
+                scanf("%i", &THELASTCHANCETOSAVEDATABASE);
+
+                if (THELASTCHANCETOSAVEDATABASE)
+                    closeFILE(f);
+
                 return 0;
             }
         }

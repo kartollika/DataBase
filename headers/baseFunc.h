@@ -10,25 +10,29 @@ typedef struct {
     double average;
 } participant;
 
-/** \brief
+/** \brief Create *n* new records  to database in position *pos*
  *
- * \param
- * \param
- * \return
- *
- */
-
-participant *addRecord(participant *part, int *record, int n);
-
-/** \brief
- *
- * \param
- * \param
- * \return
+ * \param part - pointer to beginning of database
+ * \param record - to count of records
+ * \param n - number of new records to add
+ * \param pos - position where insert will execute
+ * \return pointer to new/old beginning of database
  *
  */
 
-int delRecord(participant *part, int pos, int n);
+participant *addRecord(participant *part, int *record, int *n);
+
+/** \brief Delete *n* records from *pos* position from database
+ *
+ * \param part - pointer to beginning of database
+ * \param pos - position from where deleting start
+ * \param n - number of records to delete from position *pos*
+ * \param record - count of records in database
+ * \return pointer to new/old beginning of database
+ *
+ */
+
+participant *delRecord(participant *part, int *pos, int *n, int *record);
 
 /** \brief
  *

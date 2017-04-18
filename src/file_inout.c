@@ -100,20 +100,25 @@ int check_ExistName(FILE *file, char *s)
 int recordsCount(FILE *file)
 {
     int record = 0;
-    char c;
+    char c, buf;
     while ((c = getc(file)) != EOF)
+    {
         if (c == '\n') record ++;
+        buf = c;
+    }
+    if (buf != '\n' && c == EOF)
+        record++;
 
     return record;
 }
 
-void scanFILE(FILE *file, int record, participant *part)
+void scanFILE(FILE *file, participant *part, int *record)
 {
     int i;
     char *s = calloc(N, sizeof(char));
 
     fseek(file, 0, SEEK_SET);
-    for (i=0; i<record; ++i)
+    for (i=0; i<*record; ++i)
     {
         fscanf(file, "%s", s);
         part[i].name =  malloc(strlen(s) + 1);
@@ -130,29 +135,26 @@ void scanFILE(FILE *file, int record, participant *part)
     free(s);
 }
 
-void printFILE(FILE *file, int record, participant *part)
+void printFILE(FILE *file, participant *part, int *record)
 {
     int i;
     freopen("base.in", "w", stdout);
-    for (i=0; i<record; ++i)
+    for (i=0; i<*record; ++i)
         printf("%s %s %i %.3lf\n", part[i].name, part[i].surname, part[i].place, part[i].average);
 
     fclose(stdout);
 }
 
-void printConsole(int record, participant *part)
+void printConsole(participant *part, int *record)
 {
     int i;
-    for (i=0; i<record; ++i)
+    for (i=0; i<*record; ++i)
         printf("%s %s %i %.3lf\n", part[i].name, part[i].surname, part[i].place, part[i].average);
 }
 
-void printUser(participant *user, int ident)
+void printUser(participant *part)
 {
-//    printf("%i", user);
- //   printf("%i", user-2 * sizeof(participant));
-    printf("%s", user->name);
-    //printf("%s %s %i %.3lf", user->name, user->surname, user->place, user->average);
+    printf("%s %s %i %.3lf\n", part->name, part->surname, part->place, part->average);
 }
 
 void closeFILE(FILE *file)
