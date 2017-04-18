@@ -25,7 +25,8 @@ int main()
                "    5) Print specific record by identifier\n"
                "    6) Add new records to database\n"
                "    7) Delete records from database\n"
-               "    8) Sort database by specific field\n"
+               "    8) Edit record in database\n"
+               "    9) Sort database by specific field\n"
                "Other) Exit\n");
 
         scanf("%i", &task);
@@ -74,9 +75,9 @@ int main()
             }
         case 5:
             {
-                int ident;
-                scanf("%i", &ident);
-                printUser(&participants[ident-1]);
+                int id;
+                scanf("%i", &id);
+                printUser(&participants[id-1]);
                 continue;
             }
         case 6:
@@ -110,9 +111,12 @@ int main()
             }
         case 8:
             {
-
-
+                editRecord(participants);
                 continue;
+            }
+        case 9:
+            {
+
             }
         default:
             {

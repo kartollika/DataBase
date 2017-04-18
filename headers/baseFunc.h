@@ -34,6 +34,14 @@ participant *addRecord(participant *part, int *record, int *n);
 
 participant *delRecord(participant *part, int *pos, int *n, int *record);
 
+/** \brief Edit field in record by unique identifier
+ *
+ * \param part - pointer to beginning of database
+ *
+ */
+
+void editRecord(participant *part);
+
 /** \brief
  *
  * \param

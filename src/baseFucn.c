@@ -35,8 +35,6 @@ participant *addRecord(participant *part, int *record, int *n)
 
 participant *delRecord(participant *part, int *pos, int *n, int *record)
 {
-  //  participant *beg =
-   //             *end = ;
     int i = *pos - 1,
         e = i + *n;
 
@@ -46,6 +44,34 @@ participant *delRecord(participant *part, int *pos, int *n, int *record)
     *record -= *n;
         part = realloc(part, (*record) * sizeof(participant));
     return part;
+}
+
+void editRecord(participant *user)
+{
+    int id=1, col=1;
+    printf("You entered the editing mode\n"
+           "Please choose record to edit\n"
+           "To quit the editing mode enter 0 at (id) or (field)\n");
+    while (col && id)
+    {
+        printf("id = ");
+        scanf("%i", &id);
+        if (id)
+        {
+            printf("What field to edit? 1 - Name 2 - Surname 3 - Place 4 - Average\n");
+            scanf("%i", &col);
+            if (col)
+            {
+                if (col < 3)
+                    if (col == 1) scanf("%s", user[id-1].name);
+                    else scanf("%s", user[id-1].surname);
+                else
+                    if (col == 3)
+                        scanf("%i", &user[id-1].place);
+                    else scanf("%lf", &user[id-1].average);
+            }
+        }
+    }
 }
 
 int sortBase(participant *part, int column, int direction)
