@@ -2,12 +2,69 @@
 #include <stdlib.h>
 #include "headers/baseFunc.h"
 #include "headers/file_inout.h"
+#include <GL/glut.h>
 
-int main()
+void drawText()
+{
+        glMatrixMode(GL_PROJECTION);
+     //   double *matrix = new double[16];
+     //   glGetDoublev(GL_PROJECTION_MATRIX, matrix);
+        glLoadIdentity();
+        glOrtho(0,400,0,400,-5,5);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        glPushMatrix();
+        glLoadIdentity();
+        glRasterPos2i(40,40);
+        int i;
+        for(i=0; i<20; i++)
+        {
+                glutBitmapCharacter(GLUT_BITMAP_9_BY_15,(int) 'A');
+        }
+        glPopMatrix();
+        glMatrixMode(GL_PROJECTION);
+//        glLoadMatrixd(matrix);
+    //    glMatrixMode(GL_MODELVIEW);
+
+}
+
+void display()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(0.0, 0.4, 0.4, 1.0);
+    glBegin(GL_LINES);
+        glVertex2f(110, 40);
+        glVertex2f(220, 200);
+        glVertex2f(110, 40);
+        glVertex2f(220, 40);
+        glVertex2f(110, 200);
+        glVertex2f(220, 200);
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15,(int) 'A');
+    glEnd();
+    glFlush();
+    glutSwapBuffers();
+}
+
+int main(int argc, char **argv)
 {
     int record, task = 1;
     participant *participants = NULL;
     FILE *f = NULL;
+
+  /*  glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowSize(320, 240);
+    glutCreateWindow("");
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(0, 320, 0, 240);
+
+    glutDisplayFunc(drawText);
+    glutMainLoop();
+*/
+  //  char k;
+  //  scanf("%c", &k);
+   // printf("%i", (char) k);
 
     {
         TEST_count_Record();
@@ -116,7 +173,17 @@ int main()
             }
         case 9:
             {
+                printf("%c", participants[0].name[0]);
+                int field, mode;
+                printf("Choose column to sort database by this field\n"
+                       "1 - Name 2 - Surname 3 - Place 4 - Average\n");
+                scanf("%i", &field);
+            //    printf("Choose mode to sort\n"
+            //           "0 - increasing 1 - decreasing\n");
+           //     scanf("%i", &mode);
+                sortBase(participants, &field, &mode, &record);
 
+                continue;
             }
         default:
             {

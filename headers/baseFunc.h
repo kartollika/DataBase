@@ -50,7 +50,7 @@ void editRecord(participant *part);
  *
  */
 
-int sortBase(participant *part, int column, int direction);
+int sortBase(participant *part, int *column, int *direction, int *record);
 
 
 #endif // BASEFUNC_H_INCLUDED
