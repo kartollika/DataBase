@@ -113,7 +113,6 @@ int sortBase(participant *part, int *column, int *direction, int *record)
         }
     else if (*column > 0);
     {
-        int len;
         int diff = 0;
         for (i=0; i<*record-1; ++i)
         {

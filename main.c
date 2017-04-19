@@ -193,7 +193,10 @@ int main(int argc, char **argv)
                 scanf("%i", &THELASTCHANCETOSAVEDATABASE);
 
                 if (THELASTCHANCETOSAVEDATABASE)
+                {
+                    printFILE(f, participants, &record);
                     closeFILE(f);
+                }
 
                 return 0;
             }
