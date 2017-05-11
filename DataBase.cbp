@@ -31,15 +31,22 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Linker>
+			<Add option="-lopenbgi -lgdi32" />
+		</Linker>
 		<Unit filename="TESTUNIT/test.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="headers/baseFunc.h" />
+		<Unit filename="headers/diagram.h" />
 		<Unit filename="headers/file_inout.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/baseFucn.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/diagram.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/file_inout.c">
