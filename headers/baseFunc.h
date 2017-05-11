@@ -20,7 +20,7 @@ typedef struct {
  *
  */
 
-participant *addRecord(participant *part, int *record, int *n);
+participant *addRecord(participant *part, int *record, int n);
 
 /** \brief Delete *n* records from *pos* position from database
  *
@@ -32,7 +32,7 @@ participant *addRecord(participant *part, int *record, int *n);
  *
  */
 
-participant *delRecord(participant *part, int *pos, int *n, int *record);
+participant *delRecord(participant *part, int pos, int n, int *record);
 
 /** \brief Edit field in record by unique identifier
  *
@@ -42,16 +42,35 @@ participant *delRecord(participant *part, int *pos, int *n, int *record);
 
 void editRecord(participant *part);
 
-/** \brief
+/** \brief Sorts database by any of field in increasing or decreasing line
  *
- * \param
- * \param
- * \return
+ * \param part - pointer to beginning of database
+ * \param column - selected column to sort by it
+ * \param direction - increasing || decreasing sorting
+ * \param record - count of records in database
+ * \return 1 - sort is successful 0 - isn't successful (records == 0)
  *
  */
 
-int sortBase(participant *part, int *column, int *direction, int *record);
+int sortBase(participant *part, int column, int direction, int *record);
 
+/** \brief gives the memory to something new which needs memory to exist
+ *
+ * \param part - pointer to pointer to beginning of database
+ * \param record - count of records in database
+ *
+ */
+
+void m_mloc(participant **part, int record);
+
+/** \brief reallocate memory
+ *
+ * \param part - pointer to pointer to beginning of database
+ * \param record - count of records in database
+ *
+ */
+
+void m_rloc(participant **part, int record);
 
 #endif // BASEFUNC_H_INCLUDED
 

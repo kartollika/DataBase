@@ -72,7 +72,7 @@ void printUser(participant *user);
  *
  */
 
-int check_ExistName(FILE *file, char *s);
+int check_ExistName(FILE **file, char *s);
 
 /** \brief Close file and execute the last saving of database
  *

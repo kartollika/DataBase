@@ -2,75 +2,21 @@
 #include <stdlib.h>
 #include "headers/baseFunc.h"
 #include "headers/file_inout.h"
-#include <GL/glut.h>
+#include "headers/diagram.h"
+#include <graphics.h>
 
-void drawText()
-{
-        glMatrixMode(GL_PROJECTION);
-     //   double *matrix = new double[16];
-     //   glGetDoublev(GL_PROJECTION_MATRIX, matrix);
-        glLoadIdentity();
-        glOrtho(0,400,0,400,-5,5);
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        glPushMatrix();
-        glLoadIdentity();
-        glRasterPos2i(40,40);
-        int i;
-        for(i=0; i<20; i++)
-        {
-                glutBitmapCharacter(GLUT_BITMAP_9_BY_15,(int) 'A');
-        }
-        glPopMatrix();
-        glMatrixMode(GL_PROJECTION);
-//        glLoadMatrixd(matrix);
-    //    glMatrixMode(GL_MODELVIEW);
-
-}
-
-void display()
-{
-    glClear(GL_COLOR_BUFFER_BIT);
-    glClearColor(0.0, 0.4, 0.4, 1.0);
-    glBegin(GL_LINES);
-        glVertex2f(110, 40);
-        glVertex2f(220, 200);
-        glVertex2f(110, 40);
-        glVertex2f(220, 40);
-        glVertex2f(110, 200);
-        glVertex2f(220, 200);
-        glutBitmapCharacter(GLUT_BITMAP_9_BY_15,(int) 'A');
-    glEnd();
-    glFlush();
-    glutSwapBuffers();
-}
-
-int main(int argc, char **argv)
+int main()
 {
     int record, task = 1;
     participant *participants = NULL;
     FILE *f = NULL;
-
-  /*  glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowSize(320, 240);
-    glutCreateWindow("");
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluOrtho2D(0, 320, 0, 240);
-
-    glutDisplayFunc(drawText);
-    glutMainLoop();
-*/
-  //  char k;
-  //  scanf("%c", &k);
-   // printf("%i", (char) k);
-
+ /*
     {
         TEST_count_Record();
         printf("ALL TESTS SUCCESSFUL\n"
                "READY TO WORK\n");
     }
+  */
 
     while ( 1 )
     {
@@ -84,6 +30,7 @@ int main(int argc, char **argv)
                "    7) Delete records from database\n"
                "    8) Edit record in database\n"
                "    9) Sort database by specific field\n"
+               "   10) Show diagrams of database\n"
                "Other) Exit\n");
 
         scanf("%i", &task);
@@ -97,8 +44,9 @@ int main(int argc, char **argv)
                     f = initFILE(0);
                     if (!f) continue;
                     record = recordsCount(f);
-                    participants = (participant*) malloc(record * sizeof(participant));
+                    m_mloc(&participants, record);
                 }
+                else printf("File is already opened");
                 continue;
             }
         case 2:
@@ -107,9 +55,10 @@ int main(int argc, char **argv)
                 {
                     f = initFILE(1);
                     record = recordsCount(f);
-                    participants = (participant*) malloc(record * sizeof(participant));
+                    m_mloc(&participants, record);
                     scanFILE(f, participants, &record);
                 }
+                else printf("File is already opened");
 
                 continue;
             }
@@ -132,9 +81,15 @@ int main(int argc, char **argv)
             }
         case 5:
             {
-                int id;
-                scanf("%i", &id);
-                printUser(&participants[id-1]);
+                if (f)
+                {
+                    int id;
+                    printf("Enter the id = ");
+                    scanf("%i", &id);
+                    printUser(&participants[id-1]);
+                }
+                else
+                    printf("DATABASE HASN'T FOUND");
                 continue;
             }
         case 6:
@@ -144,7 +99,7 @@ int main(int argc, char **argv)
                     int count;
                     printf("Enter count of new records\nCount = ");
                     scanf("%i", &count);
-                    participants = addRecord(participants, &record, &count);
+                    participants = addRecord(participants, &record, count);
                 }
                 else
                     printf("DATABASE HASN'T FOUND\n");
@@ -157,31 +112,48 @@ int main(int argc, char **argv)
                 {
                     int pos, count;
                     printf("From what position do you want to delete record?\n"
-                           "And how many do you want to delete? (F.E 3 2 (from 3 position delete 2 records\n");
+                           "And how many do you want to delete? (F.E 3 2 (from 3 position delete 2 records)\n");
                     scanf("%i %i", &pos, &count);
-                    participants = delRecord(participants, &pos, &count, &record);
+                    participants = delRecord(participants, pos, count, &record);
                 }
                 else
-                    printf("DATABASE HAS'T FOUND\n");
+                    printf("DATABASE HASN'T FOUND\n");
 
                 continue;
             }
         case 8:
             {
-                editRecord(participants);
+                if (f)
+                    editRecord(participants);
+                else
+                    printf("DATABASE HASN'T FOUND\n");
                 continue;
             }
         case 9:
             {
-                printf("%c", participants[0].name[0]);
-                int field, mode;
-                printf("Choose column to sort database by this field\n"
-                       "1 - Name 2 - Surname 3 - Place 4 - Average\n");
-                scanf("%i", &field);
-            //    printf("Choose mode to sort\n"
-            //           "0 - increasing 1 - decreasing\n");
-           //     scanf("%i", &mode);
-                sortBase(participants, &field, &mode, &record);
+                if (f)
+                {
+                    int field, mode;
+                    printf("Choose column to sort database by this field\n"
+                           "1 - Name 2 - Surname 3 - Place 4 - Average\n");
+                    scanf("%i", &field);
+                    printf("Choose mode to sort\n"
+                           "0 - increasing 1 - decreasing\n");
+                    scanf("%i", &mode);
+                    sortBase(participants, field, mode, &record);
+                }
+                else
+                    printf("DATABASE HASN'T FOUND\n");
+                continue;
+            }
+        case 10:
+            {
+                int mode, column;
+                printf("Enter the type of diagram\n0 - circle 1 - column\n");
+                scanf("%i", &mode);
+                printf("Choose the column to show diagram\n0 - place 1 - average\n");
+                scanf("%i", &column);
+                mode ? showDiagramColumn(participants, mode, column, record) : showDiagramRadial(participants, mode, column, record);
 
                 continue;
             }
@@ -197,7 +169,6 @@ int main(int argc, char **argv)
                     printFILE(f, participants, &record);
                     closeFILE(f);
                 }
-
                 return 0;
             }
         }

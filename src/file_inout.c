@@ -9,16 +9,15 @@ FILE *initFILE(int mode)
 
     if (!mode)
     {
-        if (!check_ExistName(file, s))
+        if (!check_ExistName(&file, s))
         {
-            fclose(file);
             file = fopen(s, "w+");
             return file;
         }
         else
         {
             int task;
-            while (check_ExistName(file, s))
+            while (check_ExistName(&file, s))
             {
                 printf("File in directory exist. Orders?\n"
                        "    1) Rewrite file\n"
@@ -50,7 +49,7 @@ FILE *initFILE(int mode)
     }
     else
     {
-        if (check_ExistName(file, s))
+        if (check_ExistName(&file, s))
         {
             file = fopen(s, "r");
             return file;
@@ -58,7 +57,7 @@ FILE *initFILE(int mode)
         else
         {
             int task;
-            while (!check_ExistName(file, s))
+            while (!check_ExistName(&file, s))
             {
                 printf("File in directory doesn't exist. Orders?\n"
                        "    1) Create file\n"
@@ -92,7 +91,7 @@ FILE *initFILE(int mode)
     return file;
 }
 
-int check_ExistName(FILE *file, char *s)
+int check_ExistName(FILE **file, char *s)
 {
     return (fopen(s, "r") != NULL ? 1 : 0);
 }
@@ -106,6 +105,8 @@ int recordsCount(FILE *file)
         if (c == '\n') record ++;
         buf = c;
     }
+    if (!record)
+        return 0;
     if (buf != '\n' && c == EOF)
         record++;
 
@@ -149,12 +150,12 @@ void printConsole(participant *part, int *record)
 {
     int i;
     for (i=0; i<*record; ++i)
-        printf("%s %s %i %.3lf\n", part[i].name, part[i].surname, part[i].place, part[i].average);
+        printf("%8s %10s %4i %5.1lf\n", part[i].name, part[i].surname, part[i].place, part[i].average);
 }
 
 void printUser(participant *part)
 {
-    printf("%s %s %i %.3lf\n", part->name, part->surname, part->place, part->average);
+    printf("%10s %10s %6i %7.1lf\n", part->name, part->surname, part->place, part->average);
 }
 
 void closeFILE(FILE *file)

@@ -6,19 +6,29 @@ int cmp_int(void *a, void *b)
     return *(int*)a == *(int*)b ? 0 : ( *(int*)a < *(int*)b ?  -1 :  1);
 }
 
-participant *addRecord(participant *part, int *record, int *n)
+void m_mloc(participant **part, int record)
+{
+    *part = malloc(record * sizeof(participant));
+}
+
+void m_rloc(participant **part, int record)
+{
+    *part = realloc(*part, record * sizeof(participant));
+}
+
+participant *addRecord(participant *part, int *record, int n)
 {
     char *s = calloc(N, sizeof(char));
 
-    part = (participant*) realloc(part, (*record+*n) * sizeof(participant));
+    m_rloc(&part, *record+n);
 
     int k = *record;
-    while (k < *record + *n)
+    while (k < *record + n)
     {
-        printf("User #%i\n", k);
+        printf("User #%i\n", k+1);
         printf("Name ");
         scanf("%s", s);
-        part[k].name = malloc(strlen(s)+1);
+        part[k].name =  malloc(strlen(s)+1);
         strcpy(part[k].name, s);
 
         printf("Surname ");
@@ -34,20 +44,22 @@ participant *addRecord(participant *part, int *record, int *n)
         printf("===================================\n");
         k++;
     }
-    *record += *n;
+    *record += n;
     return part;
 }
 
-participant *delRecord(participant *part, int *pos, int *n, int *record)
+participant *delRecord(participant *part, int pos, int n, int *record)
 {
-    int i = *pos - 1,
-        e = i + *n;
+    int i = pos - 1,
+        e = i + n;
 
     for (; e<*record; ++i, ++e)
         part[i] = part[e];
 
-    *record -= *n;
-        part = realloc(part, (*record) * sizeof(participant));
+    *record -= n;
+
+    m_rloc(&part, *record);
+
     return part;
 }
 
@@ -68,40 +80,63 @@ void editRecord(participant *user)
             if (col)
             {
                 if (col < 3)
-                    if (col == 1) scanf("%s", user[id-1].name);
-                    else scanf("%s", user[id-1].surname);
+                    if (col == 1)
+                    {
+                        printf("%s --> ", user[id-1].name);
+                        scanf("%s", user[id-1].name);
+                    }
+                    else
+                    {
+                        printf("%s --> ", user[id-1].surname);
+                        scanf("%s", user[id-1].surname);
+                    }
                 else
                     if (col == 3)
+                    {
+                        printf("%i --> ", user[id-1].place);
                         scanf("%i", &user[id-1].place);
-                    else scanf("%lf", &user[id-1].average);
+                    }
+                    else
+                    {
+                        printf("%.3lf --> ", user[id-1].average);
+                        scanf("%lf", &user[id-1].average);
+                    }
             }
         }
     }
 }
 
-int minLen(int len1, int len2)
-{
-    return len1>len2 ? len1 : len2;
-}
-
-int sortBase(participant *part, int *column, int *direction, int *record)
+int sortBase(participant *part, int column, int mode, int *record)
 {
     int i, j;
     participant *buf;
-    if (*column > 2)
+    if (column > 2)
+    {
         for (i=0; i<*record-1; ++i)
         {
             size_t k = i;
-            if (*column == 3)
+            if (column == 3)
             {
                 for (j = i+1; j<*record; ++j)
-                    if (part[k].place > part[j].place)
+                    if (mode == 0)
+                    {
+                        if (part[k].place > part[j].place)
                         k = j;
+                    }
+                    else
+                        if (part[k].place < part[j].place)
+                            k = j;
             }
             else
                 for (j = i+1; j<*record; ++j)
-                    if (part[k].average > part[j].average)
+                    if (mode == 0)
+                    {
+                        if (part[k].average > part[j].average)
                         k = j;
+                    }
+                    else
+                        if (part[k].average < part[j].average)
+                            k = j;
             if (k != j)
             {
                 buf =  malloc(sizeof(part[k]));
@@ -111,7 +146,9 @@ int sortBase(participant *part, int *column, int *direction, int *record)
                 free(buf);
             }
         }
-    else if (*column > 0);
+        return 0;
+    }
+    else
     {
         int diff = 0;
         for (i=0; i<*record-1; ++i)
@@ -119,19 +156,32 @@ int sortBase(participant *part, int *column, int *direction, int *record)
             size_t k = i;
             for (j=i+1; j<*record; ++j)
             {
-                diff = strcmp(part[k].name, part[j].name);
-                if (diff > 0)
+                if (column == 1)
+                    diff = strcmp(part[k].name, part[j].name);
+                else
+                    diff = strcmp(part[k].surname, part[j].surname);
+                if (mode == 0)
                 {
-                    buf =  malloc(sizeof(part[k]));
-                    *buf = part[k];
-                    part[k] = part[j];
-                    part[j] = *buf;
-                    free(buf);
+                    if (diff > 0)
+                    {
+                        buf =  malloc(sizeof(part[k]));
+                        *buf = part[k];
+                        part[k] = part[j];
+                        part[j] = *buf;
+                        free(buf);
+                    }
                 }
+                else
+                    if (diff < 0)
+                    {
+                        buf =  malloc(sizeof(part[k]));
+                        *buf = part[k];
+                        part[k] = part[j];
+                        part[j] = *buf;
+                        free(buf);
+                    }
             }
         }
+        return 0;
     }
-
-
-    return 1;
 }
