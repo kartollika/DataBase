@@ -1,5 +1,7 @@
 # DataBase
 
+The homework for CS, please never mind
+
 <i>Program to work with databases of any sizes in count of records</i>
 
 # Supports:
